@@ -1,0 +1,23 @@
+public List<List<Integer>> subsetsWithDup(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<Integer> empty = new ArrayList();
+        result.add(empty);
+        Arrays.sort(nums); //必须要进行排序
+        for(int i = 0;i < nums.length; i++){
+            int dup_count = 0;
+            while(i < nums.length - 1 && nums[i] == nums[i+1]){
+                dup_count++;
+                i++; //记录了最后出现的重复元素的index
+            }
+            int presize = result.size(); //注意这样做法的思路跟回溯法是不同的。回溯法是先找nums[i]一直到最后的所有情况，但是这种方法是先找到前面每个重复元素的总的情况，然后再遍历一个非重复元素，就往result里面添加元素
+            for(int j = 0;i<presize;j++){
+                List<Integer> sub = new ArrayList<Integer>(result.get(j));
+                for(int k = 0;k<=dup_count;k++){
+                    sub.add(nums[i]);
+                    result.add(new ArrayList<Integer>(sub));
+                }
+            }
+        }
+        return result;
+        
+    }
